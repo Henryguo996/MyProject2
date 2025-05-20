@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>購物車</title></head>
+<body>
+<h2>購物車清單</h2>
+
+<form th:action="@{/cart/update}" method="post">
+    <table border="1">
+        <tr><th>商品</th><th>價格</th><th>數量</th><th>小計</th><th>操作</th></tr>
+        <tr th:each="item : ${cart}">
+            <td th:text="${item.product.name}"></td>
+            <td th:text="${item.product.price}"></td>
+            <td>
+                <input type="number" th:name="'qty_' + ${item.product.id}" th:value="${item.quantity}" min="1">
+            </td>
+            <td th:text="${item.product.price * item.quantity}"></td>
+            <td>
+                <a th:href="@{'/cart/remove/' + ${item.product.id}}">移除</a>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <button type="submit">更新數量</button>
+</form>
+
+<h3>總金額: <span th:text="${total}"></span></h3>
+<a th:href="@{/order/checkout}">前往結帳</a>
+</body>
+</html>
