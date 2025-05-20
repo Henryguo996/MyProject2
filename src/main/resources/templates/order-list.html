@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>我的訂單</title></head>
+<body>
+<h2>訂單列表</h2>
+<table border="1">
+    <tr><th>編號</th><th>日期</th><th>總金額</th><th>操作</th></tr>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.orderDate}"></td>
+        <td th:text="${order.total}"></td>
+        <td><a th:href="@{'/order/detail/' + ${order.id}}">明細</a></td>
+    </tr>
+</table>
+</body>
+</html>

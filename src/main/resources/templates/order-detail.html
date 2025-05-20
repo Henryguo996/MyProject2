@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>訂單明細</title></head>
+<body>
+<h2>訂單明細</h2>
+<table border="1">
+    <tr><th>商品編號</th><th>數量</th><th>單價</th><th>小計</th></tr>
+    <tr th:each="item : ${items}">
+        <td th:text="${item.productId}"></td>
+        <td th:text="${item.quantity}"></td>
+        <td th:text="${item.price}"></td>
+        <td th:text="${item.price * item.quantity}"></td>
+    </tr>
+</table>
+</body>
+</html>

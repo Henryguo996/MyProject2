@@ -17,6 +17,14 @@ public class CartController {
     @Autowired
     private ProductService productService;
 
+    //暫時加入 debug API
+    @GetMapping("/api/cart")
+    @ResponseBody
+    public List<CartItem> getCart(HttpSession session) {
+        return (List<CartItem>) session.getAttribute("cart");
+    }
+
+
     @GetMapping("/cart")
     public String viewCart(Model model, HttpSession session) {
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
