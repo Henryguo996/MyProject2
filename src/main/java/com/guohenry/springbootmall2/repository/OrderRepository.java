@@ -48,4 +48,10 @@ public class OrderRepository {
         return jdbcTemplate.query(sql, Map.of("orderId", orderId),
                 new BeanPropertyRowMapper<>(OrderItem.class));
     }
+
+    public List<Order> findAllOrders() {
+        String sql = "SELECT * FROM orders ORDER BY order_date DESC";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Order.class));
+    }
+
 }

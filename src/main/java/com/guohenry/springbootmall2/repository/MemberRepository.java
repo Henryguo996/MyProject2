@@ -9,11 +9,19 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class MemberRepository {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
+
+    public List<Member> findAll() {
+        String sql = "SELECT * FROM member ORDER BY id";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Member.class));
+    }
+
 
     public void save(Member member) {
         String sql = "INSERT INTO member(name, email, password, phone, role) " +
