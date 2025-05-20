@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>商品詳情</title></head>
+<body>
+<h2 th:text="${product.name}">商品名稱</h2>
+<p th:text="${product.description}">描述</p>
+<p>價格：<span th:text="${product.price}"></span></p>
+<img th:src="${product.imageUrl}" width="200">
+</body>
+</html>

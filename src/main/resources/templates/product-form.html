@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>商品表單</title></head>
+<body>
+<h2>新增或編輯商品</h2>
+<form th:action="@{/admin/product}" method="post" th:object="${product}">
+    <input type="hidden" th:field="*{id}">
+    名稱: <input type="text" th:field="*{name}"><br>
+    描述: <textarea th:field="*{description}"></textarea><br>
+    價格: <input type="text" th:field="*{price}"><br>
+    圖片網址: <input type="text" th:field="*{imageUrl}"><br>
+    <button type="submit">儲存</button>
+</form>
+</body>
+</html>
