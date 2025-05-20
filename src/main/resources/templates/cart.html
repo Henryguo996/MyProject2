@@ -1,29 +1,89 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><title>購物車</title></head>
+<head>
+    <meta charset="UTF-8">
+    <title>購物車</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 <body>
-<h2>購物車清單</h2>
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">購物車清單</h2>
 
-<form th:action="@{/cart/update}" method="post">
-    <table border="1">
-        <tr><th>商品</th><th>價格</th><th>數量</th><th>小計</th><th>操作</th></tr>
-        <tr th:each="item : ${cart}">
-            <td th:text="${item.product.name}"></td>
-            <td th:text="${item.product.price}"></td>
-            <td>
-                <input type="number" th:name="'qty_' + ${item.product.id}" th:value="${item.quantity}" min="1">
-            </td>
-            <td th:text="${item.product.price * item.quantity}"></td>
-            <td>
-                <a th:href="@{'/cart/remove/' + ${item.product.id}}">移除</a>
-            </td>
-        </tr>
-    </table>
-    <br>
-    <button type="submit">更新數量</button>
-</form>
+    <form th:action="@{/cart/update}" method="post">
+        <table class="table table-bordered table-striped">
+            <thead class="table-light">
+            <tr>
+                <th>商品</th>
+                <th>價格</th>
+                <th>數量</th>
+                <th>小計</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${cart}">
+                <td th:text="${item.product.name}"></td>
+                <td th:text="${item.product.price}"></td>
+                <td>
+                    <input type="number" min="1" th:name="'qty_' + ${item.product.id}" th:value="${item.quantity}" class="form-control">
+                </td>
+                <td th:text="${item.product.price * item.quantity}"></td>
+                <td>
+                    <a th:href="@{'/cart/remove/' + ${item.product.id}}" class="btn btn-sm btn-danger">移除</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="text-end">
+            <button type="submit" class="btn btn-secondary">更新數量</button>
+        </div>
+    </form>
 
-<h3>總金額: <span th:text="${total}"></span></h3>
-<a th:href="@{/order/checkout}">前往結帳</a>
+    <h4 class="mt-4">總金額：<span th:text="${total}"></span></h4>
+    <div class="mt-3">
+        <a th:href="@{/order/checkout}" class="btn btn-primary">前往結帳</a>
+    </div>
+</div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head><meta charset="UTF-8"><title>購物車</title></head>-->
+<!--<body>-->
+<!--<h2>購物車清單</h2>-->
+
+<!--<form th:action="@{/cart/update}" method="post">-->
+<!--    <table border="1">-->
+<!--        <tr><th>商品</th><th>價格</th><th>數量</th><th>小計</th><th>操作</th></tr>-->
+<!--        <tr th:each="item : ${cart}">-->
+<!--            <td th:text="${item.product.name}"></td>-->
+<!--            <td th:text="${item.product.price}"></td>-->
+<!--            <td>-->
+<!--                <input type="number" th:name="'qty_' + ${item.product.id}" th:value="${item.quantity}" min="1">-->
+<!--            </td>-->
+<!--            <td th:text="${item.product.price * item.quantity}"></td>-->
+<!--            <td>-->
+<!--                <a th:href="@{'/cart/remove/' + ${item.product.id}}">移除</a>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--    </table>-->
+<!--    <br>-->
+<!--    <button type="submit">更新數量</button>-->
+<!--</form>-->
+
+<!--<h3>總金額: <span th:text="${total}"></span></h3>-->
+<!--<a th:href="@{/order/checkout}">前往結帳</a>-->
+<!--</body>-->
+<!--</html>-->

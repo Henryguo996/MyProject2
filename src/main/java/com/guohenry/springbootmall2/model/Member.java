@@ -1,10 +1,22 @@
 package com.guohenry.springbootmall2.model;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 public class Member {
+
     private int id;
+
+    @NotBlank(message = "姓名不得為空")
     private String name;
+
+    @Email(message = "Email 格式錯誤")
+    @NotBlank(message = "Email 不得為空")
     private String email;
+
+    @NotBlank(message = "密碼不得為空")
     private String password;
+
     private String phone;
     private String role;
 

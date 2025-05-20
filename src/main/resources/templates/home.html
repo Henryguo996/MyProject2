@@ -1,10 +1,113 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>首頁</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>阿和的購物網站</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="static/styles/style-components/index.css" />
 </head>
 <body>
-<h1>歡迎來到我的電商網站！</h1>
+<header>
+    <a class="logo" th:href="@{/}">
+        <img src="/images/icons/logo.svg" alt="阿和的購物網站" />
+        <h1>馬上開始 SHOOPING!~</h1>
+    </a>
+    <div class="checkmen">
+        <ul>
+            <li><a th:href="@{/}"><i class="fa-solid fa-house"></i> 回首頁</a></li>
+            <li><a th:href="@{/login}"><i class="fa-regular fa-user"></i> 會員登入</a></li>
+            <li><a th:href="@{/order/list}"><i class="fa-solid fa-receipt"></i> 訂單查詢</a></li>
+            <li><a th:href="@{/cart}"><i class="fa-solid fa-cart-shopping"></i> 購物車 (<span th:text="${cartCount}">0</span>)</a></li>
+        </ul>
+    </div>
+</header>
+
+<main>
+    <h3>熱賣商品</h3>
+    <section class="background-img">
+        <div class="filter"></div>
+    </section>
+
+    <section class="info-products">
+        <section class="info-right">
+            <h3>全站商品</h3>
+            <section class="search">
+                <input class="search-input" placeholder="搜尋" />
+                <button class="search-button">
+                    <img class="search-icon" src="/images/icons/search.svg" />
+                </button>
+            </section>
+        </section>
+
+        <form>
+            <p>
+                排序依
+                <select>
+                    <option>日期(新→舊)</option>
+                    <option>日期(舊→新)</option>
+                    <option selected>熱賣度</option>
+                    <option>價格(高→低)</option>
+                    <option>價格(低→高)</option>
+                </select>
+            </p>
+        </form>
+
+        <section class="product-grid">
+            <div class="products">
+                <div class="product" th:each="p : ${products}">
+                    <a class="product-link" th:href="@{'/product/' + ${p.id}}">
+                        <img class="product-img" th:src="@{${p.imageUrl}}" th:alt="${p.name}" />
+                        <p class="product-name" th:text="${p.name}">商品名稱</p>
+                        <p class="discount-price">NT$<span th:text="${p.price}">0</span></p>
+                    </a>
+                    <form th:action="@{/cart/add/{id}(id=${p.id})}" method="post">
+                        <button type="submit" class="add-to-cart">
+                            <i class="fa-solid fa-cart-plus"></i> 加入購物車
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <div class="cnt_page">
+        <div class="page">
+            共 <span>1</span> 頁
+            <span class="here">1</span>
+            <!-- 若有分頁功能，可用 Thymeleaf 分頁控制邏輯 -->
+        </div>
+    </div>
+</main>
+
+<footer>
+    <section class="logo">
+        <a th:href="@{/}">
+            <img src="/images/icons/logo.svg" alt="logo" />
+            <h3>阿和的購物網站</h3>
+        </a>
+    </section>
+    <section class="links">
+        <a href="#"><img title="facebook" src="/images/icons/facebook.svg" /><p>Facebook</p></a>
+        <a href="#"><img title="instagram" src="/images/icons/instagram.svg" /><p>Instagram</p></a>
+        <a href="#"><img title="youtube" src="/images/icons/youtube.svg" /><p>YouTube</p></a>
+        <a href="#"><img title="line" src="/images/icons/line.svg" /><p>LINE官方帳號</p></a>
+    </section>
+</footer>
 </body>
 </html>
+
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>首頁</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>歡迎來到我的電商網站！</h1>-->
+<!--</body>-->
+<!--</html>-->
