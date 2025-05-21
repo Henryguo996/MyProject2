@@ -1,43 +1,25 @@
 package com.guohenry.springbootmall2.repository;
 
 import com.guohenry.springbootmall2.model.Member;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-public class MemberRepository {
 
-    @Autowired
-    private NamedParameterJdbcTemplate jdbcTemplate;
+import com.guohenry.springbootmall2.model.Member;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
-    public List<Member> findAll() {
-        String sql = "SELECT * FROM member ORDER BY id";
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Member.class));
-    }
+import java.util.List;
 
+public interface MemberRepository {
 
-    public void save(Member member) {
-        String sql = "INSERT INTO member(name, email, password, phone, role) " +
-                "VALUES(:name, :email, :password, :phone, :role)";
-        SqlParameterSource param = new BeanPropertySqlParameterSource(member);
-        jdbcTemplate.update(sql, param);
-    }
+    Member findById(int id);
 
-    public Member findByEmail(String email) {
-        String sql = "SELECT * FROM member WHERE email = :email";
-        try {
-            return jdbcTemplate.queryForObject(sql,
-                    new MapSqlParameterSource("email", email),
-                    new BeanPropertyRowMapper<>(Member.class));
-        } catch (Exception e) {
-            return null;
-        }
-    }
+    void update(Member member);
+
+    List<Member> findAll();
+
+    void save(Member member);
+
+    Member findByEmail(String email);
+
 }

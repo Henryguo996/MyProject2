@@ -2,6 +2,7 @@ package com.guohenry.springbootmall2.controller;
 
 import com.guohenry.springbootmall2.model.CartItem;
 import com.guohenry.springbootmall2.model.Product;
+import com.guohenry.springbootmall2.service.CartService;
 import com.guohenry.springbootmall2.service.ProductService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+
 @Controller
 public class CartController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private CartService cartService;
 
     //暫時加入 debug API
     @GetMapping("/api/cart")
@@ -36,6 +41,8 @@ public class CartController {
 
         model.addAttribute("cart", cart);
         model.addAttribute("total", total);
+        model.addAttribute("cartCount", cart.stream().mapToInt(CartItem::getQuantity).sum());
+
         return "cart";
     }
 
@@ -43,7 +50,8 @@ public class CartController {
     public String addToCart(@PathVariable int id,
                             @RequestParam(defaultValue = "1") int quantity,
                             HttpSession session) {
-        Product product = productService.getById(id);
+
+        Product product = productService.getById(id); // 非 null
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
         if (cart == null) cart = new ArrayList<>();
 
@@ -57,34 +65,28 @@ public class CartController {
         }
 
         if (!found) {
-            cart.add(new CartItem(product, quantity));
+            cart.add(new CartItem(product, quantity)); // 確保 CartItem 有正確 constructor
         }
 
-        session.setAttribute("cart", cart);
+        session.setAttribute("cart", cart); // 必須寫回 session
         return "redirect:/cart";
     }
 
     @GetMapping("/cart/remove/{id}")
     public String removeFromCart(@PathVariable int id, HttpSession session) {
-        List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
-        if (cart != null) {
-            cart.removeIf(item -> item.getProduct().getId() == id);
-        }
+        cartService.removeFromCart(id, session);
         return "redirect:/cart";
     }
 
     @PostMapping("/cart/update")
     public String updateCart(@RequestParam Map<String, String> params, HttpSession session) {
-        List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
-        if (cart != null) {
-            for (CartItem item : cart) {
-                String key = "qty_" + item.getProduct().getId();
-                if (params.containsKey(key)) {
-                    int qty = Integer.parseInt(params.get(key));
-                    item.setQuantity(qty);
-                }
-            }
-        }
+        cartService.updateCart(params, session);
         return "redirect:/cart";
+    }
+
+    @GetMapping("/cart/count")
+    @ResponseBody
+    public int cartCount(HttpSession session) {
+        return cartService.getCartCount(session);
     }
 }

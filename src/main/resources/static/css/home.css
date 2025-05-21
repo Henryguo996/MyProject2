@@ -37,31 +37,39 @@ body header a.logo h1 {
   font-size: 2.5rem;
   color: black;
 }
-body header div {
+body header nav {
   flex: 5 1 500px;
 }
-body header div ul {
+body header nav ul {
   display: flex;
   align-items: center;
   list-style-type: none;
   justify-content: space-around;
 }
-body header div ul li a {
+body header nav ul li a {
   color: black;
   text-decoration: none;
   font-size: 1.35rem;
   transition: all 0.2s ease;
 }
-body header div ul li a:hover {
+body header nav ul li a:hover {
   color: #33ffff;
 }
+body main h3 {
+  color: red;
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 body main section.background-img {
-  border: 3px solid black;
-  min-height: 70vh;
+  border: 1px solid rgb(202, 197, 197);
+  min-height: 50vh;
   background-image: url("../images/product_images/product_image1.jpg");
   background-size: cover;
   background-position: center;
   transition: all 0.75s ease;
+  margin: 5px 100px 20px 100px;
   position: relative;
   z-index: 0;
   display: flex;
@@ -69,23 +77,12 @@ body main section.background-img {
   align-items: center;
 }
 body main section.background-img div.filter {
-  background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
-  min-height: 70vh;
+  min-height: 50vh;
   position: absolute;
   top: 0;
   left: 0;
   z-index: -1;
-}
-body main section.background-img h3 {
-  color: white;
-  font-size: 2.5rem;
-  text-align: center;
-}
-body main h3 {
-  text-align: left;
-  font-size: 2rem;
-  padding: 1rem;
 }
 body main section.info-products {
   background-color: white;
@@ -98,6 +95,12 @@ body main section.info-products section.info-right {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+body main section.info-products section.info-right h3 {
+  color: black;
+  text-align: left;
+  font-size: 2rem;
+  padding: 1rem;
 }
 body main section.info-products section.search {
   flex: 1;
@@ -118,7 +121,7 @@ body main section.info-products section.search .search-button {
   cursor: pointer;
 }
 body main section.info-products section.search .search-button:hover {
-  background-color: rgb(230, 230, 230);
+  background-color: #33ffff;
 }
 body main section.info-products section.search .search-button .search-icon {
   height: 24px;
@@ -134,10 +137,22 @@ body main section.info-products section.search .search-input {
   font-size: 16px;
   width: 100px;
 }
-body main section.info-products section.product-grid div.products {
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
+body main section.info-products form {
+  display: block;
+  border-bottom: 2px solid rgba(247, 243, 243, 0.7607843137);
+  text-align: right;
+}
+body main section.info-products form p {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  unicode-bidi: isolate;
+}
+body main section.info-products section.product-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 body main section.info-products section.product-grid div.products div.product {
   padding: 1rem;
@@ -148,6 +163,21 @@ body main section.info-products section.product-grid div.products div.product {
 }
 body main section.info-products section.product-grid div.products div.product a {
   text-decoration: none;
+}
+body main section.info-products section.product-grid div.products div.product a img {
+  width: 80%;
+  border-color: #33ffff;
+  transition: all 0.1s ease-in;
+  padding: 0.3rem;
+}
+body main section.info-products section.product-grid div.products div.product a img:hover {
+  border: 3px solid #33ffff;
+}
+body main section.info-products section.product-grid div.products div.product a p {
+  font-size: 16px;
+  color: black;
+  flex-direction: column;
+  align-items: center;
 }
 body main section.info-products section.product-grid div.products div.product a p.discount-price {
   font-weight: 900;
@@ -161,20 +191,49 @@ body main section.info-products section.product-grid div.products div.product a 
   color: gray;
   text-decoration: line-through;
 }
-body main section.info-products section.product-grid div.products div.product img {
-  width: 80%;
-  border-color: 50%;
-  transition: all 0.1s ease-in;
-  padding: 0.3rem;
-}
-body main section.info-products section.product-grid div.products div.product img:hover {
-  border: 3px solid #33ffff;
-}
-body main section.info-products section.product-grid div.products div.product p {
-  font-size: 16px;
-  color: black;
-  flex-direction: column;
+body main section.info-products section.product-grid div.products div.product a form {
+  display: flex;
   align-items: center;
+  justify-content: center;
+}
+body main section.info-products section.product-grid div.products div.product a form button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body main div.cnt_page {
+  margin: 10px;
+  padding: 7px 5px;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  background-color: #eaeaea;
+  clear: both;
+}
+body main div.cnt_page .page {
+  font-size: 100%;
+}
+body main div.cnt_page .page span.here {
+  margin: 0 1px;
+  padding: 5px;
+  font-weight: 700;
+  color: #ffffff;
+  background: #333333;
+}
+body main div.cnt_page .page a {
+  margin: 0;
+  display: inline-block;
+  border: 1px solid #d1d1d1;
+  padding: 5px 6px;
+  text-decoration: none;
+  color: #5a5a5a;
+  background: #ffffff;
+}
+body main div.cnt_page .page a:-webkit-any-link {
+  cursor: pointer;
+}
+body main div.cnt_page .page a {
+  outline: none;
 }
 body footer {
   display: flex;
@@ -232,4 +291,12 @@ body footer section.links a p {
   header nav ul li {
     padding: 0.5rem 0.25rem;
   }
-}/*# sourceMappingURL=search.css.map */
+  body section.background-img {
+    height: auto;
+  }
+  body div.filter {
+    height: auto;
+  }
+}
+
+/*# sourceMappingURL=home.css.map */

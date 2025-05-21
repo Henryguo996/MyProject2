@@ -16,7 +16,34 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+
     @GetMapping("/order/checkout")
+    public String checkoutPage(Model model, HttpSession session) {
+        Member member = (Member) session.getAttribute("member");
+
+        if (member == null) {
+            session.setAttribute("redirectAfterLogin", "/order/checkout"); //儲存原目標
+            return "redirect:/login";
+        }
+
+
+        List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
+        if (cart == null || cart.isEmpty()) {
+            return "redirect:/cart"; // 沒商品回購物車
+        }
+
+        double total = cart.stream()
+                .mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity())
+                .sum();
+
+        model.addAttribute("cart", cart);
+        model.addAttribute("total", total);
+        return "checkout"; // 對應 checkout.html
+    }
+
+
+
+    @PostMapping("/order/checkout")
     public String checkout(HttpSession session) {
         Member member = (Member) session.getAttribute("member");
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");

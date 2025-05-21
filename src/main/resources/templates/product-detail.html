@@ -1,7 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head><meta charset="UTF-8"><title>商品詳情</title></head>
+<link rel="stylesheet" th:href="@{/css/header.css}" />
 <body>
+<header class="header">
+    <div class="header-left">
+        <a class="logo" th:href="@{/}">
+            <img src="/images/icons/logo.svg" alt="阿和的購物網站" />
+            <h1>馬上開始SHOOPING!~</h1>
+        </a>
+    </div>
+    <nav class="header-right">
+        <ul>
+            <li><a th:href="@{/}">回首頁</a></li>
+            <li><a th:href="@{/login}">會員</a></li>
+            <li><a th:href="@{/order/list}">訂單查詢</a></li>
+            <li>
+                <a th:href="@{/cart}">
+                    購物車 (<span id="cart-count" th:text="${cartCount}">0</span>)
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
 <h2 th:text="${product.name}">商品名稱</h2>
 <p th:text="${product.description}">描述</p>
 <p>價格：<span th:text="${product.price}"></span></p>
@@ -11,6 +33,18 @@
     數量: <input type="number" name="quantity" value="1" min="1">
     <button type="submit">加入購物車</button>
 </form>
-
+<script>
+    async function updateCartCount() {
+        try {
+            const response = await fetch('/cart/count');
+            const count = await response.text();
+            document.getElementById('cart-count').innerText = count;
+        } catch (error) {
+            console.error('無法取得購物車數量:', error);
+        }
+    }
+    updateCartCount();
+    setInterval(updateCartCount, 3000);
+</script>
 </body>
 </html>

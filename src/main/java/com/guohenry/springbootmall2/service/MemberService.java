@@ -1,38 +1,21 @@
 package com.guohenry.springbootmall2.service;
 
 import com.guohenry.springbootmall2.model.Member;
-import com.guohenry.springbootmall2.repository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
-@Service
-public class MemberService {
+public interface MemberService {
 
-    @Autowired
-    private MemberRepository memberRepository;
+    Member findById(int id);
 
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    void update(Member member); // 用於更新密碼等資訊
 
-    public void register(Member member) {
-        member.setPassword(encoder.encode(member.getPassword()));
-        member.setRole("USER");
-        memberRepository.save(member);
-    }
+    void register(@Valid Member member);
 
-    public Member login(String email, String password) {
-        Member member = memberRepository.findByEmail(email);
-        if (member != null && encoder.matches(password, member.getPassword())) {
-            return member;
-        }
-        return null;
-    }
+    Member login(String email, String password);
 
-    public List<Member> findAll() {
-        return memberRepository.findAll();
-    }
+    List<Member> findAll(); // 正確：統一為 List<Member>
 
-
+    Member findByEmail(String email);
 }

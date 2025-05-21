@@ -2,28 +2,36 @@
 <html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>阿和的購物網站</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" />
-    <link rel="stylesheet" href="static/styles/style-components/index.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+
 </head>
 <body>
-<header>
-    <a class="logo" th:href="@{/}">
-        <img src="/images/icons/logo.svg" alt="阿和的購物網站" />
-        <h1>馬上開始 SHOOPING!~</h1>
-    </a>
-    <div class="checkmen">
-        <ul>
-            <li><a th:href="@{/}"><i class="fa-solid fa-house"></i> 回首頁</a></li>
-            <li><a th:href="@{/login}"><i class="fa-regular fa-user"></i> 會員登入</a></li>
-            <li><a th:href="@{/order/list}"><i class="fa-solid fa-receipt"></i> 訂單查詢</a></li>
-            <li><a th:href="@{/cart}"><i class="fa-solid fa-cart-shopping"></i> 購物車 (<span th:text="${cartCount}">0</span>)</a></li>
-        </ul>
+
+<header class="header">
+    <div class="header-left">
+        <a class="logo" th:href="@{/}">
+            <img src="/images/icons/logo.svg" alt="阿和的購物網站" />
+            <h1>馬上開始SHOOPING!~</h1>
+        </a>
     </div>
+    <nav class="header-right">
+        <ul>
+            <li><a th:href="@{/}">回首頁</a></li>
+            <li><a th:href="@{/login}">會員</a></li>
+            <li><a th:href="@{/order/list}">訂單查詢</a></li>
+            <li>
+                <a th:href="@{/cart}">
+                    購物車 (<span id="cart-count" th:text="${cartCount}">0</span>)
+                </a>
+            </li>
+        </ul>
+    </nav>
 </header>
 
-<main>
+
+<main class="all-products">
     <h3>熱賣商品</h3>
     <section class="background-img">
         <div class="filter"></div>
@@ -35,50 +43,62 @@
             <section class="search">
                 <input class="search-input" placeholder="搜尋" />
                 <button class="search-button">
-                    <img class="search-icon" src="/images/icons/search.svg" />
+                    <img class="search-icon" src="./images/icons/search.svg" />
                 </button>
             </section>
         </section>
 
-        <form>
+        <form action="" method="" name="">
             <p>
                 排序依
-                <select>
-                    <option>日期(新→舊)</option>
-                    <option>日期(舊→新)</option>
-                    <option selected>熱賣度</option>
-                    <option>價格(高→低)</option>
-                    <option>價格(低→高)</option>
+                <select onchange="" name="">
+                    <option value="#">日期(新→舊)</option>
+                    <option value="#">日期(舊→新)</option>
+                    <option value="#" selected>熱賣度</option>
+                    <option value="#">價格(高→低)</option>
+                    <option value="#">價格(低→高)</option>
                 </select>
             </p>
         </form>
 
         <section class="product-grid">
-            <div class="products">
-                <div class="product" th:each="p : ${products}">
-                    <a class="product-link" th:href="@{'/product/' + ${p.id}}">
-                        <img class="product-img" th:src="@{${p.imageUrl}}" th:alt="${p.name}" />
-                        <p class="product-name" th:text="${p.name}">商品名稱</p>
-                        <p class="discount-price">NT$<span th:text="${p.price}">0</span></p>
-                    </a>
-                    <form th:action="@{/cart/add/{id}(id=${p.id})}" method="post">
-                        <button type="submit" class="add-to-cart">
-                            <i class="fa-solid fa-cart-plus"></i> 加入購物車
-                        </button>
-                    </form>
-                </div>
+            <div class="product"  th:each="p : ${products}">
+                <a th:href="@{'/product/' + ${p.id}}">
+                    <img style="width: 320px; height:214px" th:src="@{${p.imageUrl}}" th:alt="${p.name}" />
+                    <p class="product-name" th:text="${p.name}">商品名稱</p>
+                    <p>NT$ <span th:text="${p.price}">0</span></p>
+                </a>
+                <form th:action="@{/cart/add/{id}(id=${p.id})}" method="post">
+                    <button type="submit">
+                        <i class="fa-solid fa-cart-plus"></i> 加入購物車
+                    </button>
+                </form>
             </div>
         </section>
-    </section>
 
+
+    </section>
     <div class="cnt_page">
         <div class="page">
-            共 <span>1</span> 頁
+            共
+            <span>3</span>
+            頁
             <span class="here">1</span>
-            <!-- 若有分頁功能，可用 Thymeleaf 分頁控制邏輯 -->
+            <a href="">2</a>
+            <a href="">3</a>
+            <a href="">下一頁</a>
+            跳到
+            <select name="select" id="">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+            頁
         </div>
     </div>
+
 </main>
+
 
 <footer>
     <section class="logo">
@@ -94,20 +114,41 @@
         <a href="#"><img title="line" src="/images/icons/line.svg" /><p>LINE官方帳號</p></a>
     </section>
 </footer>
-</body>
-</html>
+<script>
+    setInterval(() => {
+        let topBackground = document.querySelector("section.background-img");
+        if (
+            topBackground.style.backgroundImage ==
+            'url("../images/product_images/product_image1.jpg")'
+        ) {
+            topBackground.style.backgroundImage =
+                'url("../images/product_images/product_image2.jpg")';
+        } else if (
+            topBackground.style.backgroundImage ==
+            'url("../images/product_images/product_image2.jpg")'
+        ) {
+            topBackground.style.backgroundImage =
+                'url("../images/product_images/product_image3.jpg")';
+        } else {
+            topBackground.style.backgroundImage =
+                'url("../images/product_images/product_image1.jpg")';
+        }
+    }, 3000);
 
+        async function updateCartCount() {
+        try {
+        const response = await fetch('/cart/count');
+        const count = await response.text();
+        document.getElementById('cart-count').innerText = count;
+    } catch (error) {
+        console.error('更新購物車數量失敗:', error);
+    }
+    }
 
+        // 頁面載入時執行一次
+        updateCartCount();
 
+        // 每 3 秒更新一次
+        setInterval(updateCartCount, 3000);
 
-
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>首頁</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<h1>歡迎來到我的電商網站！</h1>-->
-<!--</body>-->
-<!--</html>-->
+</script>

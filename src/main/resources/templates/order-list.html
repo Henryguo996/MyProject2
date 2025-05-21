@@ -4,8 +4,30 @@
     <meta charset="UTF-8">
     <title>我的訂單</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
 </head>
 <body>
+<header class="header">
+    <div class="header-left">
+        <a class="logo" th:href="@{/}">
+            <img src="/images/icons/logo.svg" alt="阿和的購物網站" />
+            <h1>馬上開始SHOOPING!~</h1>
+        </a>
+    </div>
+    <nav class="header-right">
+        <ul>
+            <li><a th:href="@{/}">回首頁</a></li>
+            <li><a th:href="@{/login}">會員</a></li>
+            <li><a th:href="@{/order/list}">訂單查詢</a></li>
+            <li>
+                <a th:href="@{/cart}">
+                    購物車 (<span id="cart-count" th:text="${cartCount}">0</span>)
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
 <div class="container mt-5">
     <h2 class="mb-4 text-center">我的訂單</h2>
     <table class="table table-bordered table-striped">
@@ -28,6 +50,19 @@
         </tr>
         </tbody>
     </table>
+    <script>
+        async function updateCartCount() {
+            try {
+                const response = await fetch('/cart/count');
+                const count = await response.text();
+                document.getElementById('cart-count').innerText = count;
+            } catch (error) {
+                console.error('無法取得購物車數量:', error);
+            }
+        }
+        updateCartCount();
+        setInterval(updateCartCount, 3000);
+    </script>
 </div>
 </body>
 </html>
