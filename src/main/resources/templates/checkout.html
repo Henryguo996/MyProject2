@@ -8,26 +8,8 @@
   <link rel="stylesheet" th:href="@{/css/header.css}" />
 </head>
 <body>
-<header class="header">
-  <div class="header-left">
-    <a class="logo" th:href="@{/}">
-      <img src="/images/icons/logo.svg" alt="阿和的購物網站" />
-      <h1>馬上開始SHOOPING!~</h1>
-    </a>
-  </div>
-  <nav class="header-right">
-    <ul>
-      <li><a th:href="@{/}">回首頁</a></li>
-      <li><a th:href="@{/login}">會員</a></li>
-      <li><a th:href="@{/order/list}">訂單查詢</a></li>
-      <li>
-        <a th:href="@{/cart}">
-          購物車 (<span id="cart-count" th:text="${cartCount}">0</span>)
-        </a>
-      </li>
-    </ul>
-  </nav>
-</header>
+<!-- 共用 header -->
+<div th:replace="fragments/header :: siteHeader"></div>
 
 <div class="container mt-5">
   <h2 class="mb-4 text-center">請確認您的訂單</h2>

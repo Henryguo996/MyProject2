@@ -18,20 +18,22 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
     @GetMapping("/register")
     public String registerPage(Model model) {
         model.addAttribute("member", new Member()); // 一定要傳
-        return "register";
+        return "/users/register";
     }
 
     @PostMapping("/register")
     public String processRegister(@Valid @ModelAttribute Member member,
                                   BindingResult result) {
         if (result.hasErrors()) {
-            return "register";
+            return "/users/register";
         }
         memberService.register(member);
-        return "redirect:/login";
+        return "redirect:/users/login";
     }
 
 
@@ -40,7 +42,7 @@ public class MemberController {
     public String loginPage(HttpSession session, Model model) {
         String redirectPath = (String) session.getAttribute("redirectAfterLogin");
         model.addAttribute("redirectPath", redirectPath);
-        return "login";
+        return "/users/login";
     }
 
     @PostMapping("/login")
@@ -55,7 +57,7 @@ public class MemberController {
 
         if (member == null) {
             model.addAttribute("errorMessage", "帳號或密碼錯誤");
-            return "login";
+            return "/users/login";
         }
 
         session.setAttribute("member", member);
@@ -70,7 +72,7 @@ public class MemberController {
             return "redirect:" + sessionRedirect;
         }
 
-        return "redirect:/member";
+        return "redirect:/users/member";
     }
 
 
@@ -83,7 +85,7 @@ public class MemberController {
 
     @GetMapping("/member")
     public String memberPage() {
-        return "member";
+        return "/users/member";
     }
 
     @PostMapping("/member/update-password")
@@ -96,17 +98,17 @@ public class MemberController {
         Member member = (Member) session.getAttribute("member");
 
         if (member == null) {
-            return "redirect:/login";
+            return "redirect:/users/login";
         }
 
         if (!newPassword.equals(confirmPassword)) {
             model.addAttribute("errorMessage", "新密碼與確認密碼不一致");
-            return "member";
+            return "/users/member";
         }
 
         if (!new BCryptPasswordEncoder().matches(currentPassword, member.getPassword())) {
             model.addAttribute("errorMessage", "目前密碼錯誤");
-            return "member";
+            return "/users/member";
         }
 
 // 正確：加密後更新
@@ -114,7 +116,7 @@ public class MemberController {
         memberService.update(member);
 
         model.addAttribute("successMessage", "密碼已成功變更！");
-        return "member";
+        return "/users/member";
     }
 
 }

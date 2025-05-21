@@ -6,7 +6,7 @@ public class Product implements Serializable {
     private int id;
     private String name;
     private String description;
-    private double price;
+    private Integer price;
     private String imageUrl;
 
     public int getId() {
@@ -33,11 +33,11 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 

@@ -102,7 +102,7 @@ body main section.info-products section.info-right h3 {
   font-size: 2rem;
   padding: 1rem;
 }
-body main section.info-products section.search {
+body main section.info-products form.search {
   flex: 1;
   display: flex;
   flex-direction: row;
@@ -110,7 +110,7 @@ body main section.info-products section.search {
   align-items: center;
   max-width: 500px;
 }
-body main section.info-products section.search .search-button {
+body main section.info-products form.search .search-button {
   width: 64px;
   height: 41px;
   background-color: rgb(240, 240, 240);
@@ -120,13 +120,13 @@ body main section.info-products section.search .search-button {
   border-color: rgba(192, 192, 192, 0.5);
   cursor: pointer;
 }
-body main section.info-products section.search .search-button:hover {
+body main section.info-products form.search .search-button:hover {
   background-color: #33ffff;
 }
-body main section.info-products section.search .search-button .search-icon {
+body main section.info-products form.search .search-button .search-icon {
   height: 24px;
 }
-body main section.info-products section.search .search-input {
+body main section.info-products form.search .search-input {
   flex: 1;
   height: 39px;
   border-radius: 5px 0 0 5px;

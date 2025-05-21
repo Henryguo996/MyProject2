@@ -1,35 +1,21 @@
 package com.guohenry.springbootmall2.service;
 
 import com.guohenry.springbootmall2.model.Product;
-import com.guohenry.springbootmall2.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
+public interface ProductService {
 
-    public void save(Product product) {
-        productRepository.save(product);
-    }
+    List<Product> searchByName(String keyword);
 
-    public List<Product> getAll() {
-        return productRepository.findAll();
-    }
+    void save(Product product);
 
-    public Product getById(int id) {
-        return productRepository.findById(id);
-    }
+    List<Product> getAll();
 
-    public void update(Product product) {
-        productRepository.update(product);
-    }
+    Product getById(int id);
 
-    public void delete(int id) {
-        productRepository.delete(id);
-    }
+    void update(Product product);
+
+    void delete(int id);
 }

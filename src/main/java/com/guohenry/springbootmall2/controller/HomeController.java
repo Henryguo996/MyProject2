@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model; // ← 正確的 Model
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -20,12 +21,22 @@ public class HomeController {
     @Autowired
     private CartService cartService;
 
-    @GetMapping("/")
-    public String home(Model model, HttpSession session) {
-        // 所有商品
-        List<Product> all = productService.getAll();
-        model.addAttribute("products", all);
 
+    @GetMapping("/")
+    public String home(@RequestParam(required = false) String keyword,
+                       Model model,
+                       HttpSession session) {
+
+        List<Product> products;
+
+        if (keyword != null && !keyword.isBlank()) {
+            products = productService.searchByName(keyword); // 搜尋商品名稱
+        } else {
+            products = productService.getAll(); // 顯示全部
+        }
+
+        model.addAttribute("products", products);
+        model.addAttribute("keyword", keyword); // 為了保留搜尋欄輸入值
         model.addAttribute("cartCount", cartService.getCartCount(session));
 
         // 熱門前5商品（暫時用前五筆）
@@ -33,10 +44,10 @@ public class HomeController {
 //        model.addAttribute("hotProducts", hotProducts);
 
         // 購物車數量（暫時假數字）
-        model.addAttribute("cartCount", 0);
 
-        return "home"; // 對應 home.html
+        return "home"; // Thymeleaf 對應 home.html
     }
+
 }
 
 

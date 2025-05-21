@@ -8,28 +8,8 @@
 
 </head>
 <body>
-
-<header class="header">
-    <div class="header-left">
-        <a class="logo" th:href="@{/}">
-            <img src="/images/icons/logo.svg" alt="阿和的購物網站" />
-            <h1>馬上開始SHOOPING!~</h1>
-        </a>
-    </div>
-    <nav class="header-right">
-        <ul>
-            <li><a th:href="@{/}">回首頁</a></li>
-            <li><a th:href="@{/login}">會員</a></li>
-            <li><a th:href="@{/order/list}">訂單查詢</a></li>
-            <li>
-                <a th:href="@{/cart}">
-                    購物車 (<span id="cart-count" th:text="${cartCount}">0</span>)
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-
+<!-- 共用 header -->
+<div th:replace="fragments/header :: siteHeader"></div>
 
 <main class="all-products">
     <h3>熱賣商品</h3>
@@ -40,12 +20,21 @@
     <section class="info-products">
         <section class="info-right">
             <h3>全站商品</h3>
-            <section class="search">
-                <input class="search-input" placeholder="搜尋" />
-                <button class="search-button">
-                    <img class="search-icon" src="./images/icons/search.svg" />
+<!--            <section class="search">-->
+<!--                <input class="search-input" placeholder="搜尋" />-->
+<!--                <button class="search-button">-->
+<!--                    <img class="search-icon" src="./images/icons/search.svg" />-->
+<!--                </button>-->
+<!--            </section>-->
+            <form th:action="@{/}" method="get" class="search">
+                <input class="search-input" type="text" name="keyword" placeholder="搜尋商品名稱"
+                       th:value="${keyword}">
+                <button class="search-button" type="submit">
+                    <img class="search-icon" src="/images/icons/search.svg" alt="搜尋">
                 </button>
-            </section>
+            </form>
+
+
         </section>
 
         <form action="" method="" name="">
@@ -100,20 +89,9 @@
 </main>
 
 
-<footer>
-    <section class="logo">
-        <a th:href="@{/}">
-            <img src="/images/icons/logo.svg" alt="logo" />
-            <h3>阿和的購物網站</h3>
-        </a>
-    </section>
-    <section class="links">
-        <a href="#"><img title="facebook" src="/images/icons/facebook.svg" /><p>Facebook</p></a>
-        <a href="#"><img title="instagram" src="/images/icons/instagram.svg" /><p>Instagram</p></a>
-        <a href="#"><img title="youtube" src="/images/icons/youtube.svg" /><p>YouTube</p></a>
-        <a href="#"><img title="line" src="/images/icons/line.svg" /><p>LINE官方帳號</p></a>
-    </section>
-</footer>
+<!-- Footer -->
+<div th:replace="fragments/footer :: siteFooter"></div>
+
 <script>
     setInterval(() => {
         let topBackground = document.querySelector("section.background-img");
