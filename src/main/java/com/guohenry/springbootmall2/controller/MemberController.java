@@ -84,9 +84,17 @@ public class MemberController {
     }
 
     @GetMapping("/member")
-    public String memberPage() {
+    public String memberPage(HttpSession session, Model model) {
+        Member member = (Member) session.getAttribute("member");
+
+        if (member == null) {
+            return "redirect:/users/login";
+        }
+
+        model.addAttribute("member", member); // 塞進去給前端使用
         return "/users/member";
     }
+
 
     @PostMapping("/member/update-password")
     public String updatePassword(@RequestParam String currentPassword,

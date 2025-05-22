@@ -6,6 +6,11 @@ import java.util.List;
 
 public interface ProductRepository {
 
+
+    List<Product> findByKeywordWithPaging(String keyword, int offset, int limit);
+
+    int countByKeyword(String keyword);
+
     List<Product> findByNameContaining(String keyword);
 
     void save(Product product);

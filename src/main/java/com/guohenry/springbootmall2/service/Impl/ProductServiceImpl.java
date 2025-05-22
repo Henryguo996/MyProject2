@@ -4,16 +4,26 @@ import com.guohenry.springbootmall2.model.Product;
 import com.guohenry.springbootmall2.repository.ProductRepository;
 import com.guohenry.springbootmall2.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
 
+
+    @Override
+    public List<Product> findByKeywordWithPaging(String keyword, int offset, int limit) {
+        return productRepository.findByKeywordWithPaging(keyword, offset, limit);
+    }
+
+    @Override
+    public int countByKeyword(String keyword) {
+        return productRepository.countByKeyword(keyword);
+    }
 
     @Override
     public List<Product> searchByName(String keyword) {

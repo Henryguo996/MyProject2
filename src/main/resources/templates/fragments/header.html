@@ -15,11 +15,13 @@
                 <li><a th:href="@{/}">回首頁</a></li>
 
                 <!-- 顯示會員登入狀態 -->
-                <li th:if="${session.member == null}">
+                <li th:if="${member == null}">
                     <a th:href="@{/login}">會員（未登入）</a>
                 </li>
-                <li th:if="${session.member != null}">
-                    <a th:href="@{/member}">會員（[[${session.member.name}]])</a>
+                <li th:if="${member != null}">
+                    <a th:href="@{/member}">
+                        會員（<span th:text="${member.name}">會員</span>）
+                    </a>
                 </li>
 
                 <li><a th:href="@{/order/list}">訂單查詢</a></li>

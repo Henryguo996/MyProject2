@@ -20,13 +20,8 @@
     <section class="info-products">
         <section class="info-right">
             <h3>全站商品</h3>
-<!--            <section class="search">-->
-<!--                <input class="search-input" placeholder="搜尋" />-->
-<!--                <button class="search-button">-->
-<!--                    <img class="search-icon" src="./images/icons/search.svg" />-->
-<!--                </button>-->
-<!--            </section>-->
-            <form th:action="@{/}" method="get" class="search">
+
+            <form th:action="@{/?page=1}" method="get" class="search">
                 <input class="search-input" type="text" name="keyword" placeholder="搜尋商品名稱"
                        th:value="${keyword}">
                 <button class="search-button" type="submit">
@@ -69,22 +64,30 @@
     </section>
     <div class="cnt_page">
         <div class="page">
-            共
-            <span>3</span>
-            頁
-            <span class="here">1</span>
-            <a href="">2</a>
-            <a href="">3</a>
-            <a href="">下一頁</a>
+            共 <span th:text="${totalPages}">0</span> 頁
+            <span class="here" th:text="${currentPage}">1</span>
+
+            <!-- 動態產生頁碼 -->
+            <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+            <a th:if="${i != currentPage}" th:href="@{/?page={p}(p=${i})}" th:text="${i}"></a>
+            <span th:if="${i == currentPage}" th:text="${i}" style="font-weight: bold;"></span>
+        </span>
+
+            <!-- 下一頁 -->
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{/?page={p}(p=${currentPage + 1})}">下一頁</a>
+
             跳到
-            <select name="select" id="">
-                <option value="1" selected>1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-            </select>
-            頁
+            <select onchange="location.href='/?page=' + this.value">
+                <option th:each="i : ${#numbers.sequence(1, totalPages)}"
+                        th:value="${i}"
+                        th:text="${i}"
+                        th:selected="${i == currentPage}">
+                </option>
+            </select> 頁
         </div>
     </div>
+
 
 </main>
 

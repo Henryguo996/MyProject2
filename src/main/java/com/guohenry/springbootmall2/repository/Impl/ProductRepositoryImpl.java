@@ -9,14 +9,34 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Component
+@Repository
 public class ProductRepositoryImpl implements ProductRepository {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
+
+    @Override
+    public List<Product> findByKeywordWithPaging(String keyword, int offset, int limit) {
+        String sql = "SELECT * FROM product WHERE name LIKE :keyword LIMIT :limit OFFSET :offset";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("keyword", "%" + (keyword == null ? "" : keyword) + "%");
+        params.addValue("offset", offset);
+        params.addValue("limit", limit);
+        return jdbcTemplate.query(sql, params, new BeanPropertyRowMapper<>(Product.class));
+    }
+
+    @Override
+    public int countByKeyword(String keyword) {
+        String sql = "SELECT COUNT(*) FROM product WHERE name LIKE :keyword";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("keyword", "%" + (keyword == null ? "" : keyword) + "%");
+        return jdbcTemplate.queryForObject(sql, params, Integer.class);
+    }
+
 
     @Override
     public List<Product> findByNameContaining(String keyword) {

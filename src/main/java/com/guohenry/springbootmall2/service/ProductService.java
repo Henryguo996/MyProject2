@@ -7,6 +7,10 @@ import java.util.List;
 
 public interface ProductService {
 
+    List<Product> findByKeywordWithPaging(String keyword, int offset, int limit);
+
+    int countByKeyword(String keyword);
+
     List<Product> searchByName(String keyword);
 
     void save(Product product);

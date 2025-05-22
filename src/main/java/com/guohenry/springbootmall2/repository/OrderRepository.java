@@ -2,56 +2,23 @@ package com.guohenry.springbootmall2.repository;
 
 import com.guohenry.springbootmall2.model.Order;
 import com.guohenry.springbootmall2.model.OrderItem;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.*;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 @Repository
-public class OrderRepository {
+public interface OrderRepository {
 
-    @Autowired
-    private NamedParameterJdbcTemplate jdbcTemplate;
 
-    public int saveOrder(Order order) {
-        String sql = "INSERT INTO orders(member_id, order_date, total) VALUES(:memberId, :orderDate, :total)";
-        Map<String, Object> param = new HashMap<>();
-        param.put("memberId", order.getMemberId());
-        param.put("orderDate", order.getOrderDate());
-        param.put("total", order.getTotal());
 
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(sql, new MapSqlParameterSource(param), keyHolder);
-        return keyHolder.getKey().intValue();
-    }
+    int saveOrder(Order order);
 
-    public void saveOrderItems(List<OrderItem> items) {
-        String sql = "INSERT INTO order_item(order_id, product_id, quantity, price) VALUES(:orderId, :productId, :quantity, :price)";
-        for (OrderItem item : items) {
-            SqlParameterSource param = new BeanPropertySqlParameterSource(item);
-            jdbcTemplate.update(sql, param);
-        }
-    }
+    void saveOrderItems(List<OrderItem> items);
 
-    public List<Order> findByMemberId(int memberId) {
-        String sql = "SELECT * FROM orders WHERE member_id = :memberId ORDER BY order_date DESC";
-        return jdbcTemplate.query(sql, Map.of("memberId", memberId),
-                new BeanPropertyRowMapper<>(Order.class));
-    }
+    List<Order> findByMemberId(int memberId);
 
-    public List<OrderItem> findItemsByOrderId(int orderId) {
-        String sql = "SELECT * FROM order_item WHERE order_id = :orderId";
-        return jdbcTemplate.query(sql, Map.of("orderId", orderId),
-                new BeanPropertyRowMapper<>(OrderItem.class));
-    }
+    List<OrderItem> findItemsByOrderId(int orderId);
 
-    public List<Order> findAllOrders() {
-        String sql = "SELECT * FROM orders ORDER BY order_date DESC";
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Order.class));
-    }
+    List<Order> findAllOrders();
 
 }
