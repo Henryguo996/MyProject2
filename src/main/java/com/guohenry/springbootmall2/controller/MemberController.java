@@ -1,5 +1,4 @@
-package com.guohenry.springbootmall2.controller;
-
+ package com.guohenry.springbootmall2.controller;
 
 import com.guohenry.springbootmall2.model.Member;
 import com.guohenry.springbootmall2.service.MemberService;
