@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登出成功</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+</head>
+<body>
+
+<!-- 共用 header -->
+<div th:replace="fragments/header :: siteHeader"></div>
+
+<main style="text-align: center; padding: 100px 0;">
+    <h2>您已登出</h2>
+    <p>感謝您的使用，期待下次再見！</p>
+
+    <div style="margin-top: 30px;">
+        <a th:href="@{/}" class="btn">回首頁</a>
+        <a th:href="@{/login}" class="btn">重新登入</a>
+    </div>
+</main>
+
+<!-- 共用 footer -->
+<div th:replace="fragments/footer :: siteFooter"></div>
+
+</body>
+</html>

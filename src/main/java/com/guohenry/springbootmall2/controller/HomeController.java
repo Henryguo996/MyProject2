@@ -3,7 +3,6 @@ package com.guohenry.springbootmall2.controller;
 import com.guohenry.springbootmall2.model.Product;
 import com.guohenry.springbootmall2.service.CartService;
 import com.guohenry.springbootmall2.service.ProductService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model; // ← 正確的 Model
@@ -12,66 +11,51 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+
 @Controller
 public class HomeController {
+
 
     @Autowired
     private ProductService productService;
 
+
     @Autowired
     private CartService cartService;
 
+    // 首頁對應的控制器：GET 請求 "/"
     @GetMapping("/")
-    public String home(@RequestParam(defaultValue = "1") int page,
-                       @RequestParam(required = false) String keyword,
+    public String home(@RequestParam(defaultValue = "1") int page, // 頁碼，預設第 1 頁
+                       @RequestParam(required = false) String keyword, // 搜尋關鍵字（可選）
                        Model model) {
 
+        // 設定每頁顯示幾筆商品
         int pageSize = 7;
+
+        // 計算從第幾筆資料開始查詢（OFFSET）
         int offset = (page - 1) * pageSize;
 
+        // 根據關鍵字與分頁參數查詢商品清單
         List<Product> products = productService.findByKeywordWithPaging(keyword, offset, pageSize);
-        int totalCount = productService.countByKeyword(keyword); // 查詢符合關鍵字的總商品數
 
+        // 查詢符合關鍵字的商品總數（用來計算總頁數）
+        int totalCount = productService.countByKeyword(keyword);
+
+        // 計算總頁數（向上取整）
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
-        model.addAttribute("products", products);
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", totalPages);
+        // 把查詢結果與分頁參數塞進 model 給 Thymeleaf 頁面使用
+        model.addAttribute("products", products);           // 本頁商品清單
+        model.addAttribute("keyword", keyword);             // 搜尋欄保留關鍵字
+        model.addAttribute("currentPage", page);            // 當前頁碼
+        model.addAttribute("totalPages", totalPages);       // 總頁數
+
 
         return "home";
     }
-
 }
 
 
-//    @GetMapping("/")
-//    public String home(@RequestParam(required = false) String keyword,
-//                       Model model,
-//                       HttpSession session) {
-//
-//        List<Product> products;
-//
-//        if (keyword != null && !keyword.isBlank()) {
-//            products = productService.searchByName(keyword); // 搜尋商品名稱
-//        } else {
-//            products = productService.getAll(); // 顯示全部
-//        }
-//
-//        model.addAttribute("products", products);
-//        model.addAttribute("keyword", keyword); // 為了保留搜尋欄輸入值
-//        model.addAttribute("cartCount", cartService.getCartCount(session));
-//
-//        // 熱門前5商品（暫時用前五筆）
-////        List<Product> hotProducts = all.size() >= 5 ? all.subList(0, 5) : all;
-////        model.addAttribute("hotProducts", hotProducts);
-//
-//        // 購物車數量（暫時假數字）
-//
-//        return "home"; // Thymeleaf 對應 home.html
-//    }
-//
-//}
 
 
 
