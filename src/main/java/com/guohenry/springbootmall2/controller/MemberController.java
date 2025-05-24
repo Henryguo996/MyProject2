@@ -29,7 +29,7 @@ public class MemberController {
         // 頁面需要一個空的 member 物件做為表單綁定
         model.addAttribute("member", new Member());
 
-        return "/users/register";
+        return "users/register";
     }
 
     //  處理註冊表單提交：POST /register
@@ -38,7 +38,7 @@ public class MemberController {
                                   BindingResult result) {
         // 若驗證失敗，回到註冊頁
         if (result.hasErrors()) {
-            return "/users/register";
+            return "users/register";
         }
 
         // 呼叫 service 註冊會員（內部應包含密碼加密）
@@ -56,7 +56,8 @@ public class MemberController {
 
         // 傳入 model 給登入頁判斷是否導回原路徑
         model.addAttribute("redirectPath", redirectPath);
-        return "/users/login";
+
+        return "users/login";
     }
 
     //  處理登入表單送出：POST /login
@@ -69,15 +70,21 @@ public class MemberController {
 
         // 驗證帳號密碼（加密比對）
         Member member = memberService.login(email, password);
-
+        System.out.println("登入成功：member = " + member.getName());
         // 登入失敗（帳號密碼錯誤）
         if (member == null) {
             model.addAttribute("errorMessage", "帳號或密碼錯誤");
-            return "/users/login";
+            return "users/login";
         }
 
         // 登入成功 → 將會員資料存入 session
         session.setAttribute("member", member);
+
+        // 若是管理員，轉去後台
+        if ("ADMIN".equalsIgnoreCase(member.getRole())) {
+            return "redirect:/admin/dashboard";
+        }
+
 
         // 若有指定 redirect（從前頁跳轉），優先回去
         if (redirect != null && !redirect.isBlank()) {
@@ -92,7 +99,7 @@ public class MemberController {
         }
 
         // 預設導向會員中心
-        return "redirect:/users/member";
+        return "redirect:/";
     }
 
     // 登出功能：GET /logout
@@ -101,8 +108,12 @@ public class MemberController {
         // 清除所有 session 資料（等同登出）
         session.invalidate();
 
+
+        // 登出後加上 URL 參數 ?logout=true
+        return "redirect:/?logout=true";
+
         // 導回首頁
-        return "redirect:/users/logout";
+        //return "redirect:/";
     }
 
     //  顯示會員中心頁面：GET /member
@@ -116,9 +127,12 @@ public class MemberController {
             return "redirect:/users/login";
         }
 
+        //查檢除錯用
+        //System.out.println("登入成功：member = " + member.getName());
+
         // 登入者的資訊塞進 model 傳給前端顯示
         model.addAttribute("member", member);
-        return "/users/member"; // 對應到 templates/users/member.html
+        return "users/member"; // 對應到 templates/users/member.html
     }
 
     // 處理會員修改密碼：POST /member/update-password
@@ -140,13 +154,13 @@ public class MemberController {
         // 新密碼與確認密碼不一致，顯示錯誤訊息
         if (!newPassword.equals(confirmPassword)) {
             model.addAttribute("errorMessage", "新密碼與確認密碼不一致");
-            return "/users/member";
+            return "users/member";
         }
 
         // 驗證目前密碼是否正確（與資料庫比對）
         if (!new BCryptPasswordEncoder().matches(currentPassword, member.getPassword())) {
             model.addAttribute("errorMessage", "目前密碼錯誤");
-            return "/users/member";
+            return "users/member";
         }
 
         // 若驗證通過 → 將新密碼加密後更新
@@ -154,6 +168,8 @@ public class MemberController {
         memberService.update(member); // 呼叫 service 寫回資料庫
 
         model.addAttribute("successMessage", "密碼已成功變更！");
-        return "/users/member";
+        return "users/member";
     }
+
+
 }

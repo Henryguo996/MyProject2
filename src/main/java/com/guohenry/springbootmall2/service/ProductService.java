@@ -8,7 +8,10 @@ import java.util.List;
 
 public interface ProductService {
 
-     //分頁查詢：依照關鍵字查詢商品並進行分頁
+    //首頁前三張熱賣商品
+    List<Product> getTop3Products();
+
+    //分頁查詢：依照關鍵字查詢商品並進行分頁
     List<Product> findByKeywordWithPaging(String keyword, int offset, int limit);
 
      //計算符合關鍵字的商品數量（用於分頁總頁數）

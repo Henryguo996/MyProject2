@@ -35,6 +35,14 @@ public class ProductRepositoryImpl implements ProductRepository {
         return namedParameterJdbcTemplate.query(sql, params, new BeanPropertyRowMapper<>(Product.class));
     }
 
+    //前三張熱賣商品
+    @Override
+    public List<Product> findTop3() {
+        String sql = "SELECT * FROM product ORDER BY product_id DESC LIMIT 3";
+        return namedParameterJdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Product.class));
+    }
+
+
     //  查詢符合關鍵字的商品總筆數（用於分頁）
     @Override
     public int countByKeyword(String keyword) {

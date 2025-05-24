@@ -44,6 +44,9 @@ public class HomeController {
         // 計算總頁數（向上取整）
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
+        // 取得前三樣商品（不分頁）
+       // List<Product> top3Products = productService.getTop3Products();
+
         // 把查詢結果與分頁參數塞進 model 給 Thymeleaf 頁面使用
         model.addAttribute("products", products);           // 本頁商品清單
         model.addAttribute("keyword", keyword);             // 搜尋欄保留關鍵字

@@ -1,45 +1,46 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>會員清單</title>
+    <meta charset="UTF-8" />
+    <title>管理員後台-會員列表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+
 </head>
 <body>
-<div class="container mt-5">
-    <h2 class="mb-4 text-center">會員清單</h2>
-    <table class="table table-bordered table-striped">
-        <thead class="table-light">
-        <tr>
-            <th>ID</th>
-            <th>姓名</th>
-            <th>Email</th>
-            <th>角色</th>
-            <th>操作</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="m : ${members}">
-            <td th:text="${m.id}"></td>
-            <td th:text="${m.name}"></td>
-            <td th:text="${m.email}"></td>
-            <td th:text="${m.role}"></td>
-            <td>
-                <a th:href="@{'/admin/member-orders/' + ${m.id}}" class="btn btn-sm btn-outline-secondary">查看訂單</a>
-            </td>
-        </tr>
-
-
-
-
-        <!--<h2>會員列表</h2>-->
-<!--<table border="1">-->
-<!--    <tr><th>ID</th><th>姓名</th><th>Email</th><th>角色</th><th>訂單</th></tr>-->
-<!--    <tr th:each="m : ${members}">-->
-<!--        <td th:text="${m.id}"></td>-->
-<!--        <td th:text="${m.name}"></td>-->
-<!--        <td th:text="${m.email}"></td>-->
-<!--        <td th:text="${m.role}"></td>-->
-<!--        <td><a th:href="@{'/admin/member-orders/' + ${m.id}}">訂單查詢</a></td>-->
-<!--    </tr>-->
-<!--</table>-->
+<!-- 共用 header -->
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+    <div class="container mt-5">
+        <div class="d-grid gap-3 col-6 mx-auto">
+            <a class="btn btn-outline-success" th:href="@{/admin/orders}">訂單管理</a>
+            <a class="btn btn-outline-danger" th:href="@{/logout}">登出</a>
+            <hr>
+        </div>
+        <h2 class="mb-4 text-center">會員列表</h2>
+        <table class="table table-bordered table-striped">
+            <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>姓名</th>
+                <th>Email</th>
+                <th>角色</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(members)}">
+                <td colspan="5" class="text-center">尚無會員資料</td>
+            </tr>
+            <tr th:each="m : ${members}">
+                <td th:text="${m.id}"></td>
+                <td th:text="${m.name}"></td>
+                <td th:text="${m.email}"></td>
+                <td th:text="${m.role}"></td>
+                <td>
+                    <a th:href="@{'/admin/member-orders/' + ${m.id}}" class="btn btn-sm btn-outline-secondary">查看訂單</a>
+                </td>
+            </tr>
+            </tbody>
+    </div>
+</body>

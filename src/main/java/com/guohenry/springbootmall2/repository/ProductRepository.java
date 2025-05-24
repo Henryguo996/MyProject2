@@ -7,6 +7,9 @@ import java.util.List;
 //  ProductRepository 是商品資料存取層 DAO 的介面，提供對 product 資料表的操作
 public interface ProductRepository {
 
+    //前三張熱賣商品
+    List<Product> findTop3();
+
     //  關鍵字搜尋 + 分頁查詢（首頁使用）
     List<Product> findByKeywordWithPaging(String keyword, int offset, int limit);
 

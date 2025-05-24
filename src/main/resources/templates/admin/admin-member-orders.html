@@ -1,9 +1,45 @@
-<h2>指定會員訂單</h2>
-<table border="1">
-    <tr><th>ID</th><th>日期</th><th>金額</th></tr>
-    <tr th:each="o : ${orders}">
-        <td th:text="${o.id}"></td>
-        <td th:text="${o.orderDate}"></td>
-        <td th:text="${o.total}"></td>
-    </tr>
-</table>
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>會員訂單紀錄</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+
+</head>
+<body>
+<!-- 共用 header -->
+<div th:replace="~{fragments/header :: siteHeader}"></div>
+<div class="container mt-5">
+    <div class="d-grid gap-3 col-6 mx-auto">
+        <a class="btn btn-outline-success" th:href="@{/admin/orders}">訂單管理</a>
+        <a class="btn btn-outline-danger" th:href="@{/logout}">登出</a>
+        <hr>
+    </div>
+
+    <h2 class="mb-4 text-center">會員訂單紀錄</h2>
+    <a th:href="@{/admin/members}" class="btn btn-sm btn-secondary mb-3">← 回會員列表</a>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-light">
+        <tr>
+            <th>訂單ID</th>
+            <th>訂單時間</th>
+            <th>總金額</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(orders)}">
+            <td colspan="3" class="text-center">此會員尚無訂單紀錄</td>
+        </tr>
+        <tr th:each="o : ${orders}">
+            <td th:text="${o.id}"></td>
+            <td th:text="${o.orderDate}"></td>
+            <td th:text="${o.total}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -10,21 +10,45 @@
                 <h1>馬上開始SHOOPING!~</h1>
             </a>
         </div>
+
         <nav class="header-right">
             <ul>
+                <!-- 所有人都看得到 -->
                 <li><a th:href="@{/}">回首頁</a></li>
 
-                <!-- 顯示會員登入狀態 -->
+                <!-- 未登入：顯示登入 -->
                 <li th:if="${member == null}">
                     <a th:href="@{/login}">會員（未登入）</a>
                 </li>
-                <li th:if="${member != null}">
-                        <a th:href="@{/member}">
+
+                <!-- 一般會員：顯示會員中心連結 -->
+                <li th:if="${member != null and member.role != 'ADMIN'}">
+                    <a th:href="@{/member}">
                         會員（<span th:text="${member.name}">會員</span>）
                     </a>
                 </li>
 
-                <li><a th:href="@{/order/list}">訂單查詢</a></li>
+                <!-- 管理員：導向管理員後台 -->
+                <li th:if="${member != null and member.role == 'ADMIN'}">
+                    <a th:href="@{/admin/dashboard}">
+                        管理員（<span th:text="${member.name}">管理員</span>）
+                    </a>
+                </li>
+
+                <!-- 一般會員限定功能：訂單查詢 -->
+                <li th:if="${member != null and member.role != 'ADMIN'}">
+                    <a th:href="@{/order/list}">訂單查詢</a>
+                </li>
+
+                <!-- 管理員限定功能 -->
+                <li th:if="${member != null and member.role == 'ADMIN'}">
+                    <a th:href="@{/admin/orders}">訂單管理</a>
+                </li>
+                <li th:if="${member != null and member.role == 'ADMIN'}">
+                    <a th:href="@{/admin/members}">會員管理</a>
+                </li>
+
+                <!-- 所有人登入後都能看購物車（或你要限制會員也可） -->
                 <li>
                     <a th:href="@{/cart}">
                         購物車 (<span id="cart-count" th:text="${cartCount}">0</span>)
@@ -34,5 +58,12 @@
         </nav>
     </header>
 </div>
+
+<script>
+    if (window.location.search.includes("logout=true")) {
+        alert("您已成功登出！");
+        window.history.replaceState(null, "", window.location.pathname);
+    }
+</script>
 </body>
 </html>

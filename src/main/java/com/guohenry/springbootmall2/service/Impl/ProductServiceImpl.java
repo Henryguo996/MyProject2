@@ -14,6 +14,13 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    //前三張熱賣商品
+    @Override
+    public List<Product> getTop3Products() {
+        return productRepository.findTop3(); // 呼叫 repository
+    }
+
+
     /**
      * 關鍵字搜尋商品（分頁版）
      * @param keyword 搜尋關鍵字
