@@ -83,7 +83,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 查詢系統中所有訂單（通常只有管理員使用）
+     * 查詢系統中所有訂單（管理員使用）
      * @return 全部訂單清單
      */
     @Override

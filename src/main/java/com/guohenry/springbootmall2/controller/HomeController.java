@@ -23,7 +23,7 @@ public class HomeController {
     @Autowired
     private CartService cartService;
 
-    // 首頁對應的控制器：GET 請求 "/"
+
     @GetMapping("/")
     public String home(@RequestParam(defaultValue = "1") int page, // 頁碼，預設第 1 頁
                        @RequestParam(required = false) String keyword, // 搜尋關鍵字（可選）

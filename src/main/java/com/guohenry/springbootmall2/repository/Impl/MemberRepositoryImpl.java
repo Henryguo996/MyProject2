@@ -59,13 +59,13 @@ public class MemberRepositoryImpl implements MemberRepository {
         }
     }
 
-    // 根據 ID 查詢會員（用於後台、修改密碼等）
+    // 根據 ID 查詢會員（後台、修改密碼等）
     @Override
     public Member findById(int id) {
         String sql = "SELECT * FROM member WHERE id = ?";
         return jdbc.queryForObject(
                 sql,
-                new Object[]{id}, // 傳入 ? 參數
+                new Object[]{id},
                 (rs, rowNum) -> { // lambda 表達式轉換 ResultSet → Member
                     Member member = new Member();
                     member.setId(rs.getInt("id"));

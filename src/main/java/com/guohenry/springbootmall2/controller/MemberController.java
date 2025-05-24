@@ -20,10 +20,10 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
-    // 建立一個加密器物件，用來加密使用者密碼（登入與註冊用）
+    // 建立一個加密器物件，用來加密使用者密碼（登入與註冊）
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    // 顯示註冊頁面：GET /register
+    // 顯示註冊頁面
     @GetMapping("/register")
     public String registerPage(Model model) {
         // 頁面需要一個空的 member 物件做為表單綁定
@@ -32,7 +32,7 @@ public class MemberController {
         return "users/register";
     }
 
-    //  處理註冊表單提交：POST /register
+    //  處理註冊表單提交
     @PostMapping("/register")
     public String processRegister(@Valid @ModelAttribute Member member, // 自動綁定表單欄位 + 驗證註解
                                   BindingResult result) {
@@ -44,11 +44,11 @@ public class MemberController {
         // 呼叫 service 註冊會員（內部應包含密碼加密）
         memberService.register(member);
 
-        // 註冊完成後導向登入頁
+
         return "redirect:/users/login";
     }
 
-    //  顯示登入頁：GET /login
+    //  顯示登入頁
     @GetMapping("/login")
     public String loginPage(HttpSession session, Model model) {
         // 若使用者是從登入保護頁面跳轉，先記住原始目標網址
@@ -60,7 +60,7 @@ public class MemberController {
         return "users/login";
     }
 
-    //  處理登入表單送出：POST /login
+    //  處理登入表單送出
     @PostMapping("/login")
     public String login(@RequestParam String email,
                         @RequestParam String password,
@@ -71,13 +71,14 @@ public class MemberController {
         // 驗證帳號密碼（加密比對）
         Member member = memberService.login(email, password);
         System.out.println("登入成功：member = " + member.getName());
+
         // 登入失敗（帳號密碼錯誤）
         if (member == null) {
             model.addAttribute("errorMessage", "帳號或密碼錯誤");
             return "users/login";
         }
 
-        // 登入成功 → 將會員資料存入 session
+        // 登入成功 將會員資料存入
         session.setAttribute("member", member);
 
         // 若是管理員，轉去後台
@@ -98,11 +99,11 @@ public class MemberController {
             return "redirect:" + sessionRedirect;
         }
 
-        // 預設導向會員中心
+
         return "redirect:/";
     }
 
-    // 登出功能：GET /logout
+    // 登出功能
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         // 清除所有 session 資料（等同登出）
@@ -112,11 +113,9 @@ public class MemberController {
         // 登出後加上 URL 參數 ?logout=true
         return "redirect:/?logout=true";
 
-        // 導回首頁
-        //return "redirect:/";
     }
 
-    //  顯示會員中心頁面：GET /member
+    //  顯示會員中心頁面
     @GetMapping("/member")
     public String memberPage(HttpSession session, Model model) {
         // 從 session 取得會員資料
@@ -135,7 +134,7 @@ public class MemberController {
         return "users/member"; // 對應到 templates/users/member.html
     }
 
-    // 處理會員修改密碼：POST /member/update-password
+    // 處理會員修改密碼
     @PostMapping("/member/update-password")
     public String updatePassword(@RequestParam String currentPassword,
                                  @RequestParam String newPassword,
