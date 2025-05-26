@@ -4,6 +4,17 @@
 
 ---
 
+
+## 🚀 雲端部署成果展示
+
+本專案已成功部署至 Railway，並可線上實際操作。
+
+🔗 **線上網站網址：**  
+👉 [https://myproject2-production.up.railway.app](https://myproject2-production.up.railway.app)
+
+---
+
+
 ## 💡 專案說明
 
 此專案為學習用途所建立，專注於後端邏輯設計與功能開發，目的是讓使用者能：
