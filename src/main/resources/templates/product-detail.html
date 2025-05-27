@@ -1,24 +1,46 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>商品詳情</title>
+    <title th:text="${product.name}">商品詳情</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/header.css}" />
 </head>
-<body>
+<body class="bg-light">
+
 <!-- 共用 header -->
 <div th:replace="~{fragments/header :: siteHeader}"></div>
 
-<h2 th:text="${product.name}">商品名稱</h2>
-<p th:text="${product.description}">描述</p>
-<p>價格：<span th:text="${product.price}"></span></p>
-<img th:src="${product.imageUrl}" width="200">
+<main class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <img th:src="@{${product.imageUrl}}" class="card-img-top" style="object-fit: cover; height: 300px;" alt="商品圖片">
 
-<form th:action="@{'/cart/add/' + ${product.id}}" method="post">
-    數量: <input type="number" name="quantity" value="1" min="1">
-    <button type="submit">加入購物車</button>
-</form>
+                <div class="card-body">
+                    <h3 class="card-title text-primary fw-bold" th:text="${product.name}">商品名稱</h3>
+                    <p class="card-text text-muted" th:text="${product.description}">商品描述</p>
+                    <h5 class="text-danger mb-3">價格：NT$ <span th:text="${product.price}">0</span></h5>
+
+                    <form th:action="@{'/cart/add/' + ${product.id}}" method="post" class="d-flex flex-column gap-3">
+                        <div>
+                            <label for="quantity" class="form-label fw-semibold">數量</label>
+                            <input type="number" name="quantity" id="quantity" class="form-control" value="1" min="1" required>
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary w-100">
+                            <i class="fa-solid fa-cart-plus me-2"></i> 加入購物車
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- 購物車數量更新 -->
 <script>
     async function updateCartCount() {
         try {
@@ -32,5 +54,6 @@
     updateCartCount();
     setInterval(updateCartCount, 3000);
 </script>
+
 </body>
 </html>

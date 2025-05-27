@@ -25,6 +25,7 @@
                     <a th:href="@{/member}">
                         會員（<span th:text="${member.name}">會員</span>）
                     </a>
+                    <a th:href="@{/logout}" class="btn btn-outline-danger"><span>登出</span></a>
                 </li>
 
                 <!-- 管理員：導向管理員後台 -->
@@ -35,7 +36,8 @@
                 </li>
 
                 <!-- 一般會員限定功能：訂單查詢 -->
-                <li th:if="${member != null and member.role != 'ADMIN'}">
+<!--                <li th:if="${member != null and member.role != 'ADMIN'}">-->
+                <li >
                     <a th:href="@{/order/list}">訂單查詢</a>
                 </li>
 
@@ -48,7 +50,7 @@
                 </li>
 
                 <!-- 所有人登入後都能看購物車 -->
-                <li>
+                <li >
                     <a th:href="@{/cart}">
                         購物車 (<span id="cart-count" th:text="${cartCount}">0</span>)
                     </a>
@@ -56,7 +58,9 @@
             </ul>
         </nav>
     </header>
+
 </div>
+
 
 <script>
     if (window.location.search.includes("logout=true")) {
