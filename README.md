@@ -42,7 +42,7 @@
 ├── controller        # 控制器，負責接收請求
 ├── service           # 商業邏輯層，處理各種操作
 ├── repository        # 資料存取層，負責與資料庫互動
-├── model             # Entity 類別
+├── model             # 類別
 ├── config            # 資源設定 (資料庫、Swagger)
 └── application.properties
 ```
