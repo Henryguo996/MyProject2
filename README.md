@@ -5,14 +5,14 @@
 ---
 
 ## 首頁預覽
-![首頁畫面](https://github.com/Henryguo996/MyProject2/blob/main/screenshots/home01.png)
-![首頁畫面](https://github.com/Henryguo996/MyProject2/blob/main/screenshots/home02.png)
+![首頁畫面](src/main/screenshots/home01.png)
+![首頁畫面](src/main/screenshots/home02.png)
 
 ## 會員登入預覽
-![會員登入畫面](https://github.com/Henryguo996/MyProject2/blob/main/screenshots/login.png)
+![會員登入畫面](src/main/screenshots/login.png)
 
 ## Swagger 預覽
-![Swagger 畫面](https://github.com/Henryguo996/MyProject2/blob/main/screenshots/swagger.png)
+![Swagger 畫面](src/main/screenshots/swagger.png)
 
 ---
 
