@@ -9,6 +9,9 @@
 <body>
 <!-- 共用 header -->
 <div th:replace="~{fragments/header :: siteHeader}"></div>
+<script>
+    document.querySelector(".m-member").innerHTML="";
+</script>
 
 <div class="container mt-5">
     <h2 class="text-center text-primary mb-4">會員註冊</h2>
@@ -43,6 +46,20 @@
         已有帳號？<a th:href="@{/login}">前往登入</a>
     </div>
 </div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    let successMsg = /*[[${successMessage}]]*/ null;
+    let errorMsg = /*[[${errorMessage}]]*/ null;
+
+    if (successMsg) {
+        alert(successMsg);
+    }
+
+    if (errorMsg) {
+        alert(errorMsg);
+    }
+    /*]]>*/
+</script>
 <script>
     async function updateCartCount() {
         try {

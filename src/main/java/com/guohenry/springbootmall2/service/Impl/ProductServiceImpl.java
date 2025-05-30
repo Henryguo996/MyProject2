@@ -40,7 +40,9 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public int countByKeyword(String keyword) {
+
         return productRepository.countByKeyword(keyword);
+
     }
 
     /**
@@ -50,7 +52,9 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public List<Product> searchByName(String keyword) {
+
         return productRepository.findByNameContaining(keyword);
+
     }
 
     /**

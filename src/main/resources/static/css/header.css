@@ -20,7 +20,7 @@ header {
   align-items: center;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 1000;
   box-shadow: 0 10px 6px -6px #777;
 }
 header a.logo {
@@ -54,6 +54,22 @@ header nav ul li a {
 }
 header nav ul li a:hover {
   color: #33ffff;
+}
+
+@media screen and (max-width: 700px) {
+  header section.logo {
+    flex-direction: column;
+  }
+  header section.logo img {
+    width: 30vw;
+    height: 30vw;
+  }
+  header nav ul {
+    flex-direction: column;
+  }
+  header nav ul li {
+    padding: 0.5rem 0.25rem;
+  }
 }
 
 /*# sourceMappingURL=header.css.map */

@@ -17,11 +17,11 @@ import java.util.List;
 @Repository
 public class MemberRepositoryImpl implements MemberRepository {
 
-    // NamedParameterJdbcTemplate：支援命名參數（:name, :email 等）
+    // NamedParameterJdbcTemplate：支援命名參數（:name, :email）
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    // JdbcTemplate：支援傳統問號佔位查詢（?）
+    // JdbcTemplate：支援傳統問號佔位查詢
     @Autowired
     private JdbcTemplate jdbc;
 

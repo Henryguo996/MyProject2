@@ -10,9 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
-@Controller
+ @Controller
 public class MemberController {
 
 
@@ -34,17 +35,28 @@ public class MemberController {
     //  處理註冊表單提交
     @PostMapping("/register")
     public String processRegister(@Valid @ModelAttribute Member member, // 自動綁定表單欄位 + 驗證註解
-                                  BindingResult result) {
+                                  BindingResult result,
+                                  Model model,
+                                  RedirectAttributes redirectAttributes) {
         // 若驗證失敗，回到註冊頁
         if (result.hasErrors()) {
+            return "users/register";
+        }
+
+        // 檢查是否已註冊
+        if (memberService.findByEmail(member.getEmail()) != null) {
+            // ❗ 這邊不要用 redirectAttributes（因為沒做 redirect）
+            model.addAttribute("errorMessage", "該 Email 已經被註冊，請使用其他信箱");
             return "users/register";
         }
 
         // 呼叫 service 註冊會員（內部應包含密碼加密）
         memberService.register(member);
 
+        // 成功後帶提示文字
+        redirectAttributes.addFlashAttribute("successMessage", "註冊成功，請登入！");
+        return "redirect:/login";
 
-        return "redirect:/users/login";
     }
 
     //  顯示登入頁

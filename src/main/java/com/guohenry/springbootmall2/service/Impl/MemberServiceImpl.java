@@ -23,6 +23,11 @@ public class MemberServiceImpl implements MemberService {
     //  處理註冊邏輯（密碼加密後儲存進資料庫）
     @Override
     public void register(Member member) {
+        // 檢查是否已存在相同 email
+//        Member existing = memberRepository.findByEmail(member.getEmail());
+//        if (existing != null) {
+//            throw new RuntimeException("此 Email 已被註冊");
+//        }
         // 加密使用者輸入的原始密碼（不可明碼儲存）
         member.setPassword(encoder.encode(member.getPassword()));
 
