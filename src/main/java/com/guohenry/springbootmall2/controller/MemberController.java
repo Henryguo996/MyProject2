@@ -45,7 +45,6 @@ public class MemberController {
 
         // 檢查是否已註冊
         if (memberService.findByEmail(member.getEmail()) != null) {
-            // ❗ 這邊不要用 redirectAttributes（因為沒做 redirect）
             model.addAttribute("errorMessage", "該 Email 已經被註冊，請使用其他信箱");
             return "users/register";
         }
