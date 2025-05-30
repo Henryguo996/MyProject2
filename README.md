@@ -1,9 +1,20 @@
-# 電商網站後端專案 - MyProject2
+# 電商網站專案 - MyProject2
 
 本專案為使用 Spring Boot 建立的電商網站後端系統，主要實作會員註冊與登入、商品管理、購物車與訂單功能。資料庫使用 Railway 提供的 MySQL 雲端服務。專案採用三層架構（Controller、Service、Repository）並使用 Thymeleaf 作為前端模板引擎。
 
 ---
 
+## 首頁預覽
+![首頁畫面](src/main/screenshots/home01.png)
+![首頁畫面](src/main/screenshots/home02.png)
+
+## 會員登入預覽
+![會員登入畫面](src/main/screenshots/login.png)
+
+## Swagger 預覽
+![Swagger 畫面](src/main/screenshots/swagger.png)
+
+---
 
 ## 🚀 雲端部署成果展示
 
@@ -42,7 +53,7 @@
 ├── controller        # 控制器，負責接收請求
 ├── service           # 商業邏輯層，處理各種操作
 ├── repository        # 資料存取層，負責與資料庫互動
-├── model             # Entity 類別
+├── model             # 類別
 ├── config            # 資源設定 (資料庫、Swagger)
 └── application.properties
 ```
